@@ -1,0 +1,6 @@
+@Placer.WebAPI_HostAddress = http://localhost:5082
+
+GET {{Placer.WebAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
