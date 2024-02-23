@@ -9,6 +9,7 @@ namespace Placer.Core.Entities
     internal class Payment
     {
         public int Id { get; set; }
-        public AppUser User { get; set; }
+        public int TouristId { get; set; }
+        public Tourist Tourist { get; set; }
     }
 }
