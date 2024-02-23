@@ -13,6 +13,10 @@ namespace Placer.Core.Entities
         IEnumerable<Tour> LikedTours { get; set;  }
         IEnumerable<Tour> WishList {  get; set; }
         public int TourInId { get; set; }
+<<<<<<< HEAD
         public virtual Tour Tour { get; set; }
+=======
+        public Tour TourIn { get; set; }
+>>>>>>> b958e4fe32a276ea9f350e5c917c0ba7a036e4bd
     }
 }
