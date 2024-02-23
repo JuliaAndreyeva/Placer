@@ -11,8 +11,10 @@ namespace Placer.Core.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public Agency Agency { get; set; }
-        public Tourist Manager { get; set; }     
+        public int AgencyId { get; set; }
+        public virtual Agency Agency { get; set; }
+        public int ManagerId { get; set; }
+        public virtual Manager Manager { get; set; }     
         public double Price { get; set; }   
         public bool Available { get; set; }
         public string State { get; set; }

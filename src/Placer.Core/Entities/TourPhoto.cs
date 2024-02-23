@@ -11,6 +11,6 @@ namespace Placer.Core.Entities
         public int Id { get; set; }
         public string Url { get; set; }
         public int TouristId { get; set; }
-        public Tourist Tourist { get; set; }
+        public virtual Tourist Tourist { get; set; }
     }
 }
