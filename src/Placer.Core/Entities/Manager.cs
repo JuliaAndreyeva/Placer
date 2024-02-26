@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace Placer.Core.Entities
 {
-    internal class Manager : AppUser
+    public class Manager : AppUser
     {
-        IEnumerable<Tour> Tours { get; set; }
+        public int AgencyId { get; set; }
+        public Agency Agency { get; set; }
+        public ICollection<Tour> Tours { get; set; }
     }
 }

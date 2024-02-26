@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Placer.Core.Entities
 {
-    internal class TourPlaces
+    public class TourPlaces
     {
+        public int Id { get; set; }
         public int TourId { get; set; }
         public int PlaceId { get; set; }    
         public DateTime StartTime { get; set; } 

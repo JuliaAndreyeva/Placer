@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace Placer.Core.Entities
 {
-    internal class Booking
+    public class Booking
     {
         public int Id { get; set; }
+        public DateTime Time { get; set; }
+        public decimal? Price { get; set; }
         public int BookerId { get; set; }
         public int TourId { get; set; } 
         public virtual Tourist Booker { get; set; }
