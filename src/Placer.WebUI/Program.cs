@@ -1,10 +1,18 @@
+using Microsoft.AspNetCore.Identity;
 using Placer.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'PlacerCodeFirstDbContextConnection' not found.");
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddStorage(builder.Configuration);
+builder.Services.AddStorage(connectionString);
+
+builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddEntityFrameworkStores<PlacerCodeFirstDbContext>();
+
+builder.Services.AddRazorPages();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,5 +37,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();
 app.Run();

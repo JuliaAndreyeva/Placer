@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.AspNetCore.Identity;
 
 namespace Placer.Core.Entities
 {
-    public class Manager : AppUser
+    public class Manager : IdentityUser
     {
         public int AgencyId { get; set; }
         public Agency Agency { get; set; }
-        public ICollection<Tour> Tours { get; set; }
+        public virtual ICollection<Tour> Tours { get; set; }
     }
 }
