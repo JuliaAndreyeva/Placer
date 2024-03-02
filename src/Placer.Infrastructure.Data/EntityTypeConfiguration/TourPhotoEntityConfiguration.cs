@@ -9,6 +9,9 @@ public class TourPhotoEntityConfiguration : IEntityTypeConfiguration<TourPhoto>
     public void Configure(
         EntityTypeBuilder<TourPhoto> builder)
     {
+        builder.Property(x => x.CreationTime)
+            .HasColumnType("smalldatetime");
+        
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Url)

@@ -28,11 +28,11 @@ namespace Placer.Infrastructure.Data
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 
-                DataSeeder seeder = new DataSeeder(userManager, roleManager, dbContext);
+                DataSeeder seeder = new DataSeeder(userManager, roleManager, dbContext, 10);
                 
                 await seeder.SeedRoleData();
                 await seeder.SeedUsersData();
-                //await seeder.SeedEntities();
+                await seeder.SeedEntities();
             }
         }
     }

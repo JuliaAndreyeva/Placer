@@ -9,6 +9,9 @@ public class BookingEntityConfiguration : IEntityTypeConfiguration<Booking>
     public void Configure(
         EntityTypeBuilder<Booking> builder)
     {
+        builder.Property(x => x.CreationTime)
+            .HasColumnType("smalldatetime");
+        
         builder.HasOne(x => x.Tour)
             .WithMany() 
             .HasForeignKey(x => x.TourId)

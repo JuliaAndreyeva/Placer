@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Placer.Infrastructure.Data;
 
@@ -11,9 +12,11 @@ using Placer.Infrastructure.Data;
 namespace Placer.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(PlacerCodeFirstDbContext))]
-    partial class PlacerCodeFirstDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240302201319_changedTourStateProp")]
+    partial class changedTourStateProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -256,7 +259,7 @@ namespace Placer.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("DaysTimeBooked")
                         .HasColumnType("int");
@@ -288,7 +291,7 @@ namespace Placer.Infrastructure.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TourId")
                         .HasColumnType("int");
@@ -353,7 +356,7 @@ namespace Placer.Infrastructure.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("EndDate")
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ManagerId")
                         .IsRequired()
@@ -367,7 +370,7 @@ namespace Placer.Infrastructure.Data.Migrations
                         .HasColumnType("decimal(18, 2)");
 
                     b.Property<DateTime>("StartDate")
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("State")
                         .IsRequired()
@@ -391,7 +394,7 @@ namespace Placer.Infrastructure.Data.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("smalldatetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TourId")
                         .HasColumnType("int");

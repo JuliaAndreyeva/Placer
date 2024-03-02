@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Placer.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class renamedProperty : Migration
+    public partial class changedTourStateProp : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -190,6 +190,8 @@ namespace Placer.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AgencyId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -213,7 +215,9 @@ namespace Placer.Infrastructure.Data.Migrations
                 name: "Tourists",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -237,7 +241,7 @@ namespace Placer.Infrastructure.Data.Migrations
                     AgencyId = table.Column<int>(type: "int", nullable: false),
                     ManagerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    State = table.Column<int>(type: "int", nullable: false),
+                    State = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     EndDate = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -313,6 +317,7 @@ namespace Placer.Infrastructure.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Url = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TouristId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TourId = table.Column<int>(type: "int", nullable: false)
                 },

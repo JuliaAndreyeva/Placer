@@ -8,7 +8,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddControllersWithViews();
 builder.Services.AddStorage(connectionString);
 
-builder.Services.AddDefaultIdentity<IdentityUser>()
+builder.Services.AddDefaultIdentity<IdentityUser>(
+        options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PlacerCodeFirstDbContext>();
 
@@ -33,7 +34,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

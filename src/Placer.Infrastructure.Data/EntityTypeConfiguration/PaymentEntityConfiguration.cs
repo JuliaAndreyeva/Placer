@@ -9,6 +9,9 @@ public class PaymentEntityConfiguration : IEntityTypeConfiguration<Payment>
     public void Configure(
         EntityTypeBuilder<Payment> builder)
     {
+        builder.Property(x => x.Date)
+            .HasColumnType("smalldatetime");
+        
         builder.HasOne(x => x.Tour)
             .WithMany()
             .HasForeignKey(x => x.TourId)

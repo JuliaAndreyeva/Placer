@@ -14,7 +14,16 @@ namespace Placer.Infrastructure.Data.EntityTypeConfiguration
         public void Configure(
             EntityTypeBuilder<Tour> builder)
         {
+            builder.Property(x => x.StartDate)
+                .HasColumnType("smalldatetime");
+            
+            builder.Property(x => x.EndDate)
+                .HasColumnType("smalldatetime");
+            
             builder.HasKey(x => x.Id);
+            
+            builder.Property(x => x.State)
+                .HasConversion<string>();
             
             builder.HasOne(tour => tour.Manager)
                 .WithMany(manager => manager.Tours)

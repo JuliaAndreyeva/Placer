@@ -10,6 +10,7 @@ public class TouristEntityConfiguration: IEntityTypeConfiguration<Tourist>
         EntityTypeBuilder<Tourist> builder)
     {
         builder.ToTable("Tourists");
+        
         builder.HasMany(e => e.WishLists)
             .WithOne(e => e.Tourist)
             .HasForeignKey(e => e.TouristId)
