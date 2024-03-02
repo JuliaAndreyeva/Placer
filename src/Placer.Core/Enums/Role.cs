@@ -3,5 +3,6 @@
 public enum Role
 {
     Manager,
-    Tourist
+    Tourist,
+    Admin
 }

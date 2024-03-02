@@ -9,6 +9,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddStorage(connectionString);
 
 builder.Services.AddDefaultIdentity<IdentityUser>()
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<PlacerCodeFirstDbContext>();
 
 builder.Services.AddRazorPages();
@@ -25,6 +26,7 @@ if (!app.Environment.IsDevelopment())
 else
 {
     await app.DatabaseEnsureCreated();
+    await app.SeedData();
 }
 
 app.UseHttpsRedirection();

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Placer.Infrastructure.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class Inital : Migration
+    public partial class renamedProperty : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -96,23 +96,6 @@ namespace Placer.Infrastructure.Data.Migrations
                         name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AppUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AppUsers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AppUsers_AspNetUsers_Id",
-                        column: x => x.Id,
-                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -219,9 +202,9 @@ namespace Placer.Infrastructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Managers_AppUsers_Id",
+                        name: "FK_Managers_AspNetUsers_Id",
                         column: x => x.Id,
-                        principalTable: "AppUsers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -236,9 +219,9 @@ namespace Placer.Infrastructure.Data.Migrations
                 {
                     table.PrimaryKey("PK_Tourists", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tourists_AppUsers_Id",
+                        name: "FK_Tourists_AspNetUsers_Id",
                         column: x => x.Id,
-                        principalTable: "AppUsers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -304,7 +287,7 @@ namespace Placer.Infrastructure.Data.Migrations
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     BookerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     TourId = table.Column<int>(type: "int", nullable: false),
-                    TimeBooked = table.Column<int>(type: "int", nullable: false)
+                    DaysTimeBooked = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -594,9 +577,6 @@ namespace Placer.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Agencies");
-
-            migrationBuilder.DropTable(
-                name: "AppUsers");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

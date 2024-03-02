@@ -23,5 +23,6 @@ public class TourPhotoEntityConfiguration : IEntityTypeConfiguration<TourPhoto>
             .WithMany(x => x.TourPhotos)
             .HasForeignKey(x => x.TourId)
             .OnDelete(DeleteBehavior.NoAction);
+        
     }
 }

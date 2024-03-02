@@ -258,11 +258,11 @@ namespace Placer.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DaysTimeBooked")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<int>("TimeBooked")
-                        .HasColumnType("int");
 
                     b.Property<int>("TourId")
                         .HasColumnType("int");

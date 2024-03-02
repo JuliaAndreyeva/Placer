@@ -12,8 +12,8 @@ using Placer.Infrastructure.Data;
 namespace Placer.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(PlacerCodeFirstDbContext))]
-    [Migration("20240228202748_Inital")]
-    partial class Inital
+    [Migration("20240301220326_renamedProperty")]
+    partial class renamedProperty
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -261,11 +261,11 @@ namespace Placer.Infrastructure.Data.Migrations
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("DaysTimeBooked")
+                        .HasColumnType("int");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18, 2)");
-
-                    b.Property<int>("TimeBooked")
-                        .HasColumnType("int");
 
                     b.Property<int>("TourId")
                         .HasColumnType("int");
@@ -479,16 +479,9 @@ namespace Placer.Infrastructure.Data.Migrations
                     b.ToTable("WishListTours", (string)null);
                 });
 
-            modelBuilder.Entity("Placer.Core.Entities.AppUser", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
-
-                    b.ToTable("AppUsers");
-                });
-
             modelBuilder.Entity("Placer.Core.Entities.Manager", b =>
                 {
-                    b.HasBaseType("Placer.Core.Entities.AppUser");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<int>("AgencyId")
                         .HasColumnType("int");
@@ -500,7 +493,7 @@ namespace Placer.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Placer.Core.Entities.Tourist", b =>
                 {
-                    b.HasBaseType("Placer.Core.Entities.AppUser");
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.ToTable("Tourists", (string)null);
                 });
@@ -683,15 +676,6 @@ namespace Placer.Infrastructure.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Placer.Core.Entities.AppUser", b =>
-                {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
-                        .WithOne()
-                        .HasForeignKey("Placer.Core.Entities.AppUser", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Placer.Core.Entities.Manager", b =>
                 {
                     b.HasOne("Placer.Core.Entities.Agency", "Agency")
@@ -700,7 +684,7 @@ namespace Placer.Infrastructure.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Placer.Core.Entities.AppUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("Placer.Core.Entities.Manager", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -711,7 +695,7 @@ namespace Placer.Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Placer.Core.Entities.Tourist", b =>
                 {
-                    b.HasOne("Placer.Core.Entities.AppUser", null)
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", null)
                         .WithOne()
                         .HasForeignKey("Placer.Core.Entities.Tourist", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
