@@ -10,7 +10,8 @@ public class BookingEntityConfiguration : IEntityTypeConfiguration<Booking>
         EntityTypeBuilder<Booking> builder)
     {
         builder.Property(x => x.CreationTime)
-            .HasColumnType("smalldatetime");
+            .HasColumnType("smalldatetime")
+            .HasDefaultValueSql("GETDATE()");
         
         builder.HasOne(x => x.Tour)
             .WithMany() 
@@ -24,5 +25,7 @@ public class BookingEntityConfiguration : IEntityTypeConfiguration<Booking>
         
         builder.Property(t => t.Price)
             .HasColumnType("decimal(18, 2)");
+        
+        
     }
 }

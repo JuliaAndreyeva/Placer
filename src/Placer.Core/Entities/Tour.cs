@@ -15,6 +15,15 @@ namespace Placer.Core.Entities
         public string State { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string PhotoUrl { get; set; }
+        /// <summary>
+        /// This is price for booking only for 1 day
+        /// </summary>
+        public decimal BookingPrice { get; set; }
+        /// <summary>
+        /// The maximum number of booking days for this tour
+        /// </summary>
+        public int BookingLimitDays { get; set; }
         public virtual ICollection<TourPlaces> TourPlaces { get; set; }
         public virtual ICollection<TourPhoto> TourPhotos { get; set;}
     }

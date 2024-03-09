@@ -1,0 +1,34 @@
+﻿@model List<Placer.Core.Entities.Tour>
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<head>
+    <title>title</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <h1 class="my-4">My past tours</h1>
+    @foreach (var tour in @Model)
+    {
+        <div class="row">
+            <div class="col-md-7">
+                <a href="#">
+                    <img class="img-fluid rounded mb-3 mb-md-0" src="@tour.PhotoUrl" alt="">
+                </a>
+            </div>
+            <div class="col-md-5">
+                <h3>@tour.Name</h3>
+                <p>@tour.Description</p>
+                <a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-sm btn-outline-secondary">View Details</a>
+            </div>
+        </div>
+        <hr>
+    }
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="~/js/Scripts.js"></script>
+</body>

@@ -37,6 +37,9 @@ namespace Placer.Infrastructure.Data.EntityTypeConfiguration
                 .IsRequired();
             builder.Property(t => t.Price)
                 .HasColumnType("decimal(18, 2)");
+            
+            builder.Property(t => t.BookingPrice)
+                .HasColumnType("decimal(18, 2)");
         }
     }
 }

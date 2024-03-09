@@ -8,7 +8,10 @@ namespace Placer.Core.Entities
         public decimal? Price { get; set; }
         public string BookerId { get; set; }
         public int TourId { get; set; } 
-        public int DaysTimeBooked { get; set; }
+        /// <summary>
+        ///  The booking Duration in days is сhosen by the tourist
+        /// </summary>
+        public int BookingDuration { get; set; }
         public virtual Tourist Booker { get; set; }
         public virtual Tour Tour { get; set; }
         

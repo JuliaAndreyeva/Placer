@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Placer.WebUI.Models;
 
@@ -15,7 +16,15 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return View();
+        return RedirectToAction("Index", "Tour");
+    }
+    [HttpPost]
+    public IActionResult CultureConfig(string culture, string returnUrl)
+    {
+        Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName, CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture)),
+            new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+
+        return LocalRedirect(returnUrl);
     }
 
     public IActionResult Privacy()

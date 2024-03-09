@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "del": "^7.1.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssmin": "^0.2.0",
+    "gulp-sass": "^5.1.0",
+    "sass": "^1.71.1"
+  }
+}

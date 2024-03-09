@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject UserManager<IdentityUser> UserManager
+@inject IViewLocalizer localizer
+
+<ul class="list-unstyled components">
+     <li class="active">
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["Tours"]</a> 
+         <ul class="collapse list-unstyled" id="homeSubmenu">
+             <li>
+                 <a asp-controller="Tour" asp-action="GetTouristTours" asp-route-id="@UserManager.GetUserId(User)">@localizer["My tours"]</a>
+             </li>
+              <li>
+               <a asp-controller="Tour" asp-action="Index" >@localizer["All tours"]</a>
+           </li>
+         </ul>
+         <ul class="collapse list-unstyled" id="homeSubmenu">
+      </ul>
+     </li>
+     <li>
+         <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["Bookings"]</a>
+         <ul class="collapse list-unstyled" id="pageSubmenu">
+             <li>
+                <a href="#">@localizer["Recent bookings"]</a>
+             </li>
+             <li>
+                <a href="#">@localizer["Past bookings"]</a>
+             </li>
+         </ul>
+     </li>
+     <li>
+        <a href="#wishlistSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["WishLists"]</a>
+         <ul class="collapse list-unstyled" id="wishlistSubmenu">
+             <li>
+                <a href="#">@localizer["My wishLists"]</a>
+             </li>
+         </ul>
+     </li>
+     <li>
+         <a href="#">@localizer["Explore tours"]</a>
+     </li>
+     <li>
+        <a href="#">@localizer["Notification settings"]</a>
+     </li>
+ </ul>
+<script src="~/dist/js/Scripts.min.js"></script>
+
+
