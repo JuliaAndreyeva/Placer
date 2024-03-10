@@ -14,4 +14,5 @@ public class CreateBookingViewModel
     public int? BookingLimitDays { get; set; }
     public string BookerId { get; set; }
     public int BookingDuration { get; set; }
+    public string Nonce { get; set; } = string.Empty;
 }

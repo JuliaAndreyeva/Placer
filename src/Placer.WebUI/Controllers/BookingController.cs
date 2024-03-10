@@ -1,8 +1,9 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
+using Braintree;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Placer.Application.Interfaces;
+using Placer.Application.Interfaces.Payment;
 using Placer.Core.Entities;
 using Placer.Infrastructure.Data;
 using Placer.WebUI.ViewModels.Booking;
@@ -34,6 +35,10 @@ public class BookingController : Controller
         
         tourBookingDetails.BookerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         
+        var gateway = _paymentService.GetGateway();
+        var clientToken = gateway.ClientToken.Generate(); 
+        ViewBag.ClientToken = clientToken;
+        
         return View(tourBookingDetails);
     }
 
@@ -48,10 +53,25 @@ public class BookingController : Controller
         bookingViewModel.BookingPrice = _paymentService.CalculateBookingSum(bookingViewModel.BookingDuration, bookingViewModel.TourPrice);
         
         var booking = _mapper.Map<Booking>(bookingViewModel);
+       
+        var request = new TransactionRequest
+        {
+            Amount = Convert.ToDecimal(bookingViewModel.BookingPrice),
+            PaymentMethodNonce = bookingViewModel.Nonce,
+            Options = new TransactionOptionsRequest
+            {
+                SubmitForSettlement = true
+            }
+        };
+        var gateway = _paymentService.GetGateway();
+        
+        Result<Transaction> result = gateway.Transaction.Sale(request);
+
+        if (!result.IsSuccess())
+            return Problem("transaction failed");
         
         _dbContext.Bookings.Add(booking);
         _dbContext.SaveChangesAsync();
-        
         return RedirectToAction("Index", "Tour");
     }
 }

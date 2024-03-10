@@ -96,7 +96,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Payment\" />
     <Folder Include="wwwroot\dist\css\" />
     <Folder Include="wwwroot\dist\images\" />
     <Folder Include="wwwroot\dist\js\" />

@@ -138,4 +138,7 @@
   <data name="You can book only for" xml:space="preserve">
     <value>Ви можете забронювати лише на </value>
   </data>
+  <data name="Confirm Payment" xml:space="preserve">
+    <value>Підтвердити оплату</value>
+  </data>
 </root>

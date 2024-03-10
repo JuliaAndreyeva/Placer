@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Options;
-using Placer.Application.Interfaces;
-using Placer.Application.Services;
+using Placer.Application;
 using Placer.Infrastructure.Data;
 using Placer.WebUI;
 
@@ -10,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'PlacerCodeFirstDbContextConnection' not found.");
 
 builder.Services.ConfigureLocalization();
-
+builder.Services.AddPaymentCongiguration(builder.Configuration);
 builder.Services.AddStorage(connectionString);
-builder.Services.AddScoped<IPaymentService, PaymentService>();
+
 builder.Services.AddDefaultIdentity<IdentityUser>(
         options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()

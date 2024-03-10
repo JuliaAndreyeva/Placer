@@ -21,7 +21,5 @@ public class BookingProfile : Profile
             .ForMember(dest => dest.TourPrice, opt => opt.MapFrom(src => src.Price))
             .ForMember(dest => dest.BookerId, opt => opt.Ignore())
             .ReverseMap();
-
-
     }
 }

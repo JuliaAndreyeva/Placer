@@ -138,4 +138,7 @@
   <data name="You can book only for" xml:space="preserve">
     <value>You can book only for</value>
   </data>
+  <data name="Confirm Payment" xml:space="preserve">
+    <value>Confirm Payment</value>
+  </data>
 </root>
