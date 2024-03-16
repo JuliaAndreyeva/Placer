@@ -1,10 +1,14 @@
 @using Microsoft.AspNetCore.Mvc.Localization
-@model Placer.WebUI.ViewModels.Booking.CreateBookingViewModel
+@using System.Globalization
+@model Placer.WebUI.ViewModels.Bookings.CreateBookingViewModel
 
 @inject IViewLocalizer localizer
 
 @{
     Layout = "_Layout";
+}
+@{
+    string dollarSymbol = CultureInfo.GetCultureInfo("en-US").NumberFormat.CurrencySymbol;
 }
 
 <!DOCTYPE html>
@@ -23,7 +27,7 @@
                          <div class="card-body">
                              <input type="hidden" name="TourId" value="@Model.TourId"/>
                              <input type="hidden" name="BookerId" value="@Model.BookerId"/>
-                             <input type="hidden" name="Name" value="@Model.Name"/>
+                             <input type="hidden" name="BookingPrice" value="@Model.BookingPrice"/>
                              <input type="hidden" name="BookingLimitDays" value="@Model.BookingLimitDays"/>
                              <input type="hidden" name="TourPrice" value="@Model.TourPrice"/>
 
@@ -39,7 +43,7 @@
 
                              <div class="mb-3">
                                  <label class="form-label">@localizer["Price per 1 day of booking"]:</label>
-                                 <span>@Model.BookingPrice</span>
+                                 <span>@Model.BookingPrice</span>@dollarSymbol
                              </div>
                          </div>
                      </div>
@@ -54,7 +58,8 @@
                          <div class="d-flex justify-content-between">
                              <a asp-controller="Tour" asp-action="Index" class="btn btn-outline-secondary">@localizer["Cancel"]</a>
                              <button class="btn btn-success" type="submit"><span>@localizer["Confirm Payment"]</span></button>
-                         </div>
+                             <button id="google-pay-button" style="display: none;"></button>
+                             </div>
                      </div>  
                  </div>
              </div>
@@ -62,27 +67,44 @@
         </div>
     </div>
 <script src="https://js.braintreegateway.com/web/dropin/1.22.0/js/dropin.min.js"></script>
+<script src="https://pay.google.com/gp/p/js/pay.js"></script>
+<script src="https://js.braintreegateway.com/web/3.100.0/js/client.min.js"></script>
+<script src="https://js.braintreegateway.com/web/3.100.0/js/google-payment.min.js"></script>
 <script>
-    var client_token = "@ViewBag.ClientToken";
-    var form = document.querySelector('#payment-form');
-
-    braintree.dropin.create({
-        authorization: client_token,
-        container: '#bt-dropin'
-    }, function (createErr, instance) {
-        form.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            instance.requestPaymentMethod(function (err, payload) {
-                if (err) {
-                    return;
-                }
-              
-                document.querySelector('#nonce').value = payload.nonce;
-                form.submit();
-            });
-        });
-    });
+   var client_token = "@ViewBag.ClientToken";
+   var form = document.querySelector('#payment-form');
+    
+   var paymentsClient = new google.payments.api.PaymentsClient({
+     environment: 'TEST'
+   });
+   braintree.dropin.create({
+       authorization: client_token,
+       container: '#bt-dropin',
+       googlePay: {
+           googlePayVersion: 2,
+           transactionInfo: {
+             totalPriceStatus: 'FINAL',
+             totalPrice: '1',
+             currencyCode: 'USD'
+           },
+           allowedPaymentMethods: [{
+             type: 'CARD',
+           }]
+       }
+     }, function (createErr, instance) {
+         form.addEventListener('submit', function (event) {
+             event.preventDefault();
+ 
+             instance.requestPaymentMethod(function (err, payload) {
+                 if (err) {
+                     return;
+                 }
+               
+                 document.querySelector('#nonce').value = payload.nonce;
+                 form.submit();
+             });
+         });
+     });
 </script>
 </body>
 </html>

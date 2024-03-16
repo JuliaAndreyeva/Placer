@@ -1,4 +1,4 @@
-﻿@model List<Placer.WebUI.ViewModels.Tour.TourCropViewModel>
+﻿@model List<Placer.WebUI.ViewModels.Tours.TourCropViewModel>
 
 @{
     Layout = "_Layout";
@@ -23,7 +23,7 @@
             <div class="col-md-5">
                 <h3>@tour.Name</h3>
                 <p>@tour.Description</p>
-                <a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-sm btn-outline-secondary">View Details</a>
+                <a asp-controller="Tour" asp-action="GetPastTourDetails" asp-route-tourId="@tour.Id" class="btn btn-sm btn-outline-secondary">View Details</a>
             </div>
         </div>
         <hr>

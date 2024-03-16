@@ -5,25 +5,24 @@ namespace Placer.WebUI;
 
 public static class LocalizationExtensions
 {
-    public static void ConfigureLocalization(this IServiceCollection services)
-    {         
-        services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
+    public static void ConfigureLocalization(this IMvcBuilder builder)
+    { 
+        builder.Services.AddLocalization(opt => { opt.ResourcesPath = "Resources"; });
 
         var cultureEn = new CultureInfo("en-US");
         var cultureUk = new CultureInfo("uk-UA");
 
         var supportedCultures = new[] { cultureEn, cultureUk};
 
-        services.Configure<RequestLocalizationOptions>(options =>
+        builder.Services.Configure<RequestLocalizationOptions>(options =>
         {
-            options.SetDefaultCulture(cultureUk.Name);
+            options.SetDefaultCulture(cultureEn.Name);
             options.SupportedCultures = supportedCultures;
             options.SupportedUICultures = supportedCultures;
             options.FallBackToParentCultures = false;
         });
-
-        services.AddControllersWithViews()
-            .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+        
+        builder.AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
             .AddDataAnnotationsLocalization();
 
     }

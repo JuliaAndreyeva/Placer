@@ -1,7 +1,6 @@
 ﻿using Braintree;
 using Microsoft.Extensions.Options;
-using Placer.Application.Interfaces;
-using Placer.Application.Interfaces.Payment;
+using Placer.Application.Services.Interfaces;
 using Placer.Application.Utils;
 
 namespace Placer.Application.Services;
@@ -24,8 +23,27 @@ public class PaymentService: IPaymentService
     {
         return BraintreeGateway ?? (BraintreeGateway = CreateGateway());
     }
-    public decimal CalculateBookingSum(int dayCount, decimal price )
+    public string GenerateClientToken()
     {
-        return price * dayCount;
+        var gateway = GetGateway();
+        
+        return gateway.ClientToken.Generate(); 
+    }
+    public Result<Transaction> CreateTransaction(decimal count, string nonce)
+    {
+        var request = new TransactionRequest
+        {
+            Amount = Convert.ToDecimal(count),
+            PaymentMethodNonce = nonce,
+            Options = new TransactionOptionsRequest
+            {
+                SubmitForSettlement = true
+            }
+        };
+        var gateway = GetGateway();
+        
+        Braintree.Result<Transaction> result = gateway.Transaction.Sale(request);
+        
+        return result;
     }
 }

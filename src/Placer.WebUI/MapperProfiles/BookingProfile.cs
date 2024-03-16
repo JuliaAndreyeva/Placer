@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using Placer.Application.DTO;
 using Placer.Core.Entities;
-using Placer.WebUI.ViewModels.Booking;
+using Placer.WebUI.ViewModels.Bookings;
 
 namespace Placer.WebUI.MapperProfiles;
 
@@ -8,18 +9,13 @@ public class BookingProfile : Profile
 {
     public BookingProfile()
     {
-        CreateMap<Booking, CreateBookingViewModel>()
-            .ForMember(dest => dest.Name, opt => opt.Ignore())
-            .ForMember(dest => dest.BookingPrice, opt => opt.MapFrom(src => src.Price));
+        CreateMap<CreationBookingDTO, CreateBookingViewModel>()
+            .ForMember(dest => dest.BookingPrice, opt => opt.MapFrom(src => src.BookingPrice));
 
-        CreateMap<CreateBookingViewModel, Booking>()
-            .ForMember(dest => dest.CreationTime, opt => opt.Ignore())
-            .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.BookingPrice));
+        CreateMap<CreateBookingViewModel, CreationBookingDTO>()
+            .ForMember(dest => dest.BookingPrice, opt => opt.MapFrom(src => src.BookingPrice));
         
-        CreateMap<Tour, CreateBookingViewModel>()
-            .ForMember(dest => dest.TourId, opt => opt.MapFrom(src => src.Id))
-            .ForMember(dest => dest.TourPrice, opt => opt.MapFrom(src => src.Price))
-            .ForMember(dest => dest.BookerId, opt => opt.Ignore())
-            .ReverseMap();
+        CreateMap<ListRecentBookingsViewModel, RecentBookingDTO>().ReverseMap();
+        CreateMap<ListPastBookingsViewModel, PastBookingDTO>().ReverseMap();
     }
 }

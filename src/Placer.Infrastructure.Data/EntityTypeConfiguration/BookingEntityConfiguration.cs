@@ -9,9 +9,7 @@ public class BookingEntityConfiguration : IEntityTypeConfiguration<Booking>
     public void Configure(
         EntityTypeBuilder<Booking> builder)
     {
-        builder.Property(x => x.CreationTime)
-            .HasColumnType("smalldatetime")
-            .HasDefaultValueSql("GETDATE()");
+        builder.Property(x => x.CreationTime);
         
         builder.HasOne(x => x.Tour)
             .WithMany() 

@@ -1,12 +1,16 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
-using Braintree;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Placer.Application.Interfaces.Payment;
-using Placer.Core.Entities;
+using Placer.Application.Common.Errors;
+using Placer.Application.DTO;
+using Placer.Application.DTO.ErrorResults;
+using Placer.Application.Services.Interfaces;
+using Placer.Application.Validators;
+using Placer.Core.Enums;
 using Placer.Infrastructure.Data;
-using Placer.WebUI.ViewModels.Booking;
+using Placer.WebUI.ViewModels.Bookings;
 
 namespace Placer.WebUI.Controllers;
 
@@ -15,63 +19,84 @@ public class BookingController : Controller
     private readonly IMapper _mapper;
     private readonly PlacerCodeFirstDbContext _dbContext;
     private readonly IPaymentService _paymentService;
+    private readonly IBookingService _bookingService;
+    private readonly IValidator<CreationBookingDTO> _validator;
 
     public BookingController(
         IMapper mapper,
         PlacerCodeFirstDbContext dbContext,
-        IPaymentService paymentService)
+        IPaymentService paymentService,
+        IBookingService bookingService,
+        IValidator<CreationBookingDTO> validator)
     {
         _mapper = mapper;
         _dbContext = dbContext;
         _paymentService = paymentService;
+        _bookingService = bookingService;
+        _validator = validator;
     }
-    public IActionResult Create(int id)
+    public async Task<IActionResult> Create(int id)
     {
-        var bookingDetails = _dbContext.Tours
-            .Include(x => x.TourPlaces)
-            .FirstOrDefault(x => x.Id == id);
+        var bookingDetailsDto = await _bookingService.GetBookingTourDetailsAsync(id);
         
-        var tourBookingDetails = _mapper.Map<CreateBookingViewModel>(bookingDetails);
+        var bookerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (bookerId is null)
+        {
+            var userError = new UserErrors.UserNotFound();
+            return View(userError.Message);
+        }
+
+        Result validationResult = await _validator.ValidateAsync(bookingDetailsDto);
         
-        tourBookingDetails.BookerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        if (validationResult.IsFailed)
+        {
+            var resultDto = _mapper.Map<ResultDTO>(validationResult);
+            return View("CustomError", resultDto);
+        }
         
-        var gateway = _paymentService.GetGateway();
-        var clientToken = gateway.ClientToken.Generate(); 
-        ViewBag.ClientToken = clientToken;
-        
-        return View(tourBookingDetails);
+        var tourBookingDetailsViewModel = _mapper.Map<CreateBookingViewModel>(bookingDetailsDto);
+
+        ViewBag.ClientToken = _paymentService.GenerateClientToken();
+
+        return View(tourBookingDetailsViewModel);
     }
 
     [HttpPost]
-    public IActionResult Create(CreateBookingViewModel bookingViewModel)
+    public async Task<IActionResult> Create(CreateBookingViewModel bookingViewModel)
     {
         if (!ModelState.IsValid)
         {
             return View(bookingViewModel);
         }
         
-        bookingViewModel.BookingPrice = _paymentService.CalculateBookingSum(bookingViewModel.BookingDuration, bookingViewModel.TourPrice);
-        
-        var booking = _mapper.Map<Booking>(bookingViewModel);
-       
-        var request = new TransactionRequest
-        {
-            Amount = Convert.ToDecimal(bookingViewModel.BookingPrice),
-            PaymentMethodNonce = bookingViewModel.Nonce,
-            Options = new TransactionOptionsRequest
-            {
-                SubmitForSettlement = true
-            }
-        };
-        var gateway = _paymentService.GetGateway();
-        
-        Result<Transaction> result = gateway.Transaction.Sale(request);
+        var bookingDto = _mapper.Map<CreationBookingDTO>(bookingViewModel);
+         
+        Result bookingResult  = await _bookingService.Book(bookingDto);
 
-        if (!result.IsSuccess())
-            return Problem("transaction failed");
+        if (bookingResult.IsFailed)
+        {
+            var resultDto = _mapper.Map<ResultDTO>(bookingResult);
+            return View("CustomError", resultDto);
+        }
         
-        _dbContext.Bookings.Add(booking);
-        _dbContext.SaveChangesAsync();
         return RedirectToAction("Index", "Tour");
+    }
+
+    public async Task<IActionResult> GetRecentBookingsList(string touristId)
+    {
+        var listBookingDto = await _bookingService.GetRecentBookingAsync(touristId);
+
+        List<ListRecentBookingsViewModel> listBookingsViewModels = _mapper.Map<List<RecentBookingDTO>, List<ListRecentBookingsViewModel>>(listBookingDto);
+
+        return View("RecentBookings",listBookingsViewModels);
+    }
+    public async Task<IActionResult> GetPastBookingsList(string touristId)
+    {
+        var bookings = await _bookingService.GetPastBookingAsync(touristId);
+
+        var listBookingsViewModel = _mapper.Map<List<ListPastBookingsViewModel>>(bookings);
+
+        return View("PastBookings",listBookingsViewModel); 
     }
 }

@@ -1,13 +1,17 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using System.Security.Claims
 @inject UserManager<IdentityUser> UserManager
 @inject IViewLocalizer localizer
 
+@{
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
 <ul class="list-unstyled components">
      <li class="active">
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["Tours"]</a> 
          <ul class="collapse list-unstyled" id="homeSubmenu">
              <li>
-                 <a asp-controller="Tour" asp-action="GetTouristTours" asp-route-id="@UserManager.GetUserId(User)">@localizer["My tours"]</a>
+                 <a asp-controller="Tour" asp-action="GetTouristPastTours" asp-route-touristId="@userId">@localizer["My past tours"]</a>
              </li>
               <li>
                <a asp-controller="Tour" asp-action="Index" >@localizer["All tours"]</a>
@@ -20,11 +24,11 @@
          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["Bookings"]</a>
          <ul class="collapse list-unstyled" id="pageSubmenu">
              <li>
-                <a href="#">@localizer["Recent bookings"]</a>
+                 <a asp-controller="Booking" asp-action="GetRecentBookingsList" asp-route-touristId="@userId">@localizer["Recent bookings"]</a>
              </li>
-             <li>
-                <a href="#">@localizer["Past bookings"]</a>
-             </li>
+              <li>
+                  <a asp-controller="Booking" asp-action="GetPastBookingsList" asp-route-touristId="@userId">@localizer["Past bookings"]</a>
+              </li>
          </ul>
      </li>
      <li>

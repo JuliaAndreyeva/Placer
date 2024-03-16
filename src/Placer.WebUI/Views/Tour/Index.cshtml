@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 
 @inject IViewLocalizer localizer
-@model IEnumerable<Placer.WebUI.ViewModels.Tour.TourCropViewModel>
+@model IEnumerable<Placer.WebUI.ViewModels.Tours.TourCropViewModel>
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -45,7 +45,7 @@
                                                     <a asp-controller="Booking" asp-action="Create" asp-route-id="@tour.Id" class="btn btn-sm btn-outline-secondary">Book</a>
                                                     //<a asp-controller="Payment" asp-action="Create" asp-route-id="@tour.Id" class="btn btn-sm btn-outline-secondary">Pay</a>
                                                 }
-                                                <a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-sm btn-outline-secondary">Details</a>
+                                                //<a asp-controller="Tour" asp-action="Details" asp-route-id="@tour.Id" class="btn btn-sm btn-outline-secondary">Details</a>
                                             }
                                             else
                                             {

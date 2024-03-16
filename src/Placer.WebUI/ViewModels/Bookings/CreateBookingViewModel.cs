@@ -1,11 +1,10 @@
 ﻿using Placer.Core.Entities;
 
-namespace Placer.WebUI.ViewModels.Booking;
+namespace Placer.WebUI.ViewModels.Bookings;
 
 public class CreateBookingViewModel
 {
     public int TourId { get; set; }
-    public string Name { get; set; }
     public string? PhotoUrl { get; set; }
     public decimal TourPrice { get; set; }   
     public DateTime? StartDate { get; set; }

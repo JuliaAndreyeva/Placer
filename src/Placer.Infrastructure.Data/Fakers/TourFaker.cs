@@ -15,7 +15,8 @@ public sealed class TourFaker :Faker<Tour>
         RuleFor(u => u.Price, f => f.Finance.Amount());
         RuleFor(u => u.BookingPrice, f => f.Finance.Amount());
         RuleFor(u => u.BookingLimitDays, f => f.Random.Number(1, 10));
-        RuleFor(u => u.State, f => f.PickRandom<TourState>().ToString());
+        //RuleFor(u => u.State, f => f.PickRandom<TourState>().ToString());
+        RuleFor(u => u.State, f => TourState.Planned.ToString());
         RuleFor(u => u.StartDate, f => f.Date.Past());
         RuleFor(u => u.PhotoUrl, f => f.Image.PicsumUrl());
         RuleFor(u => u.EndDate, (f, u) => f.Date.Between(u.StartDate, u.StartDate.AddMonths(1)));

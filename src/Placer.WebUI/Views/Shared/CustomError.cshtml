@@ -1,0 +1,21 @@
+﻿@model Placer.Application.DTO.ErrorResults.ResultDTO
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error Messages</title>
+</head>
+<body>
+<h2>Oops...</h2>
+    <ul>
+        @foreach (var error in Model.ErrorsDTO)
+        {
+            <li>@error.Message</li>
+        }
+    </ul>
+</body>
+</html>

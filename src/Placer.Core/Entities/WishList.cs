@@ -6,6 +6,6 @@ public class WishList
     public string Name { get; set; }
     public string TouristId { get; set; }
     
-    public virtual ICollection<Tour> Tours { get; set; }
-    public virtual Tourist Tourist { get; set; }
+    public ICollection<Tour> Tours { get; set; }
+    public Tourist Tourist { get; set; }
 }

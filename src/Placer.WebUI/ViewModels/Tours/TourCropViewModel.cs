@@ -1,4 +1,4 @@
-﻿namespace Placer.WebUI.ViewModels.Tour;
+﻿namespace Placer.WebUI.ViewModels.Tours;
 
 public class TourCropViewModel
 {

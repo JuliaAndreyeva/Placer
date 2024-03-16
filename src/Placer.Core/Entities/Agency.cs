@@ -5,7 +5,7 @@ namespace Placer.Core.Entities
     {
         public int Id { get; set; } 
         public string Name { get; set; }
-        public virtual ICollection<Tour> Tours { get; set; }
-        public virtual ICollection<Manager> Managers { get; set; }
+        public ICollection<Tour> Tours { get; set; }
+        public ICollection<Manager> Managers { get; set; }
     }
 }

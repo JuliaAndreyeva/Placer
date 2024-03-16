@@ -13,6 +13,8 @@ public class DataSeeder
     private readonly PlacerCodeFirstDbContext _dbContext;
     public  static int CountToSeed;
     private readonly Random rnd = new Random();
+    private List<string> managerIds = new List<string>();
+    private List<string> touristIds = new List<string>();
 
     public DataSeeder(
         UserManager<IdentityUser> userManager,
@@ -54,6 +56,7 @@ public class DataSeeder
         for (int i = 0; i < CountToSeed; i++)
         {
             var fakeTourist = touristFaker.Generate();
+            touristIds.Add(fakeTourist.Id);
             fakeTourist.PasswordHash = _passwordHasher.HashPassword(fakeTourist, "touristBLACKblack1*");
             await _userManager.CreateAsync(fakeTourist);
             await _userManager.AddToRoleAsync(fakeTourist, Role.Tourist.ToString());
@@ -70,11 +73,14 @@ public class DataSeeder
         for (int i = 0, k = 1; i < CountToSeed; i++)
         {
             var fakeManager = managerFaker.Generate();
+            managerIds.Add(fakeManager.Id);
             fakeManager.PasswordHash = _passwordHasher.HashPassword(fakeManager, "managerBLACKblack1*");
             fakeManager.AgencyId = k++;
             await _userManager.CreateAsync(fakeManager);
             await _userManager.AddToRoleAsync(fakeManager, Role.Manager.ToString());
         }
+
+        await _dbContext.SaveChangesAsync();
     }
     public async Task SeedEntities()
     {
@@ -88,7 +94,6 @@ public class DataSeeder
 
         var places = placeFaker.Generate(CountToSeed);
         _dbContext.Places.AddRange(places);
-        await _dbContext.SaveChangesAsync();
 
         var tours = tourFaker.Generate(CountToSeed);
         _dbContext.Tours.AddRange(tours);
@@ -96,40 +101,32 @@ public class DataSeeder
 
         var tourPhotos = tourPhotoFaker.Generate(CountToSeed);
         _dbContext.TourPhotos.AddRange(tourPhotos);
-        await _dbContext.SaveChangesAsync();
 
         var tourPlaces = tourPlacesFaker.Generate(CountToSeed);
         _dbContext.TourPlaces.AddRange(tourPlaces);
-        await _dbContext.SaveChangesAsync();
-
-        var wishLists = wishListFaker.Generate(CountToSeed);
-        _dbContext.WishLists.AddRange(wishLists);
-        await _dbContext.SaveChangesAsync();
+        
+        for (int i = 0; i < CountToSeed; i++)
+        {
+            var wishList = wishListFaker.Generate();
+            wishList.Tours = tours.Take(i).ToList();
+            _dbContext.WishLists.Add(wishList);
+        }
 
         var bookings = bookingFaker.Generate(CountToSeed);
         _dbContext.Bookings.AddRange(bookings);
-        await _dbContext.SaveChangesAsync();
 
         var payments = paymentFaker.Generate(CountToSeed);
         _dbContext.Payments.AddRange(payments);
-        await _dbContext.SaveChangesAsync();
-
-        for (int i = 1; i < CountToSeed; i++)
-        {
-            var specificWishList = _dbContext.WishLists.FirstOrDefault(x => x.Id == i);
-            specificWishList.Tours = tours.Take(i).ToList();
-        }
+        
         await _dbContext.SaveChangesAsync();
     }
     private string GetRandomManagerId()
     {
-        var managerIds = _dbContext.Managers.Select(x => x.Id).ToList();
-        return managerIds.OrderBy(x => rnd.Next()).FirstOrDefault();
+        return managerIds.ElementAt(rnd.Next(CountToSeed));
     }
-
+    
     private string GetRandomTouristId()
     {
-        var touristIds = _dbContext.Tourists.Select(x => x.Id).ToList();
-        return touristIds.OrderBy(x => rnd.Next()).FirstOrDefault();
+        return touristIds.ElementAt(rnd.Next(CountToSeed));
     }
 }

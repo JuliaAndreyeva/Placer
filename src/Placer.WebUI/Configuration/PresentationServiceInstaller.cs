@@ -1,4 +1,7 @@
-﻿namespace Placer.WebUI.Configuration;
+﻿using System.Reflection;
+using Placer.Application.MapperProfiles;
+
+namespace Placer.WebUI.Configuration;
 
 public class PresentationServiceInstaller : IServiceInstaller
 {
@@ -10,6 +13,6 @@ public class PresentationServiceInstaller : IServiceInstaller
             .ConfigureLocalization();
         
         services.AddRazorPages();
-        services.AddAutoMapper(typeof(Program).Assembly);
+        services.AddAutoMapper(typeof(Program).Assembly, typeof(BookingProfile).Assembly);
     }
 }

@@ -16,13 +16,7 @@ p {
     line-height: 1.7em;
 }
 
-a,
-a:hover,
-a:focus {
-    color: inherit;
-    text-decoration: none;
-    transition: all 0.3s;
-}
+
 
 .navbar {
     padding: 15px 10px;
@@ -172,4 +166,32 @@ body {
 }
 #sidebar a {
     color: white !important;
+}
+
+.accordion-wrap {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    & a {
+        color: #4d5fa1;
+        tex-decoration: none;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+.border-right {
+    border-right: 1px solid #4d5fa1;
+}
+
+table {
+    border-collapse: collapse; 
+}
+
+th, td {
+    border: 1px solid #343d62; 
+    padding: 8px; 
+    text-align: left; 
 }

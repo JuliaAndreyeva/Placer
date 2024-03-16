@@ -8,8 +8,7 @@ namespace Placer.Core.Entities
         public int PlaceId { get; set; }    
         public DateTime StartTime { get; set; } 
         public DateTime EndTime { get; set; }
-        public virtual Tour Tour { get; set; }  
-        public virtual Place Place { get; set; }
-
+        public Tour Tour { get; set; }  
+        public Place Place { get; set; }
     }
 }

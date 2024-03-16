@@ -1,52 +1,48 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Placer.Application.DTO;
+using Placer.Application.Services.Interfaces;
 using Placer.Infrastructure.Data;
-using Placer.WebUI.ViewModels.Tour;
+using Placer.WebUI.ViewModels.Tours;
 
 namespace Placer.WebUI.Controllers;
 
 public class TourController : Controller
 {
-    private readonly PlacerCodeFirstDbContext _dbContext;
     private readonly IMapper _mapper;
+    private readonly ITourService _tourService;
 
     public TourController(
-        PlacerCodeFirstDbContext dbContext,
-        IMapper mapper)
+        IMapper mapper,
+        ITourService tourService)
     {
-        _dbContext = dbContext;
         _mapper = mapper;
+        _tourService = tourService;
     }
 
-    public IActionResult Index()
+    public async Task<ActionResult> Index()
     {
-        var tours = _dbContext.Tours.ToList();
+        var toursDto = await _tourService.GetAll();
         
-        var tourViewModels = _mapper.Map<List<TourCropViewModel>>(tours);
+        List<TourCropViewModel> tourViewModels = _mapper.Map<List<TourCropDTO>, List<TourCropViewModel>>(toursDto);
         
         return View(tourViewModels);
     }
-    public IActionResult Details(int id)
+    public async Task<IActionResult> GetPastTourDetails(int tourId)
     {
-        var tour = _dbContext.Tours
-            .Include(x=>x.Agency)
-            .Include(x=>x.Manager)
-            .Include(x=>x.TourPlaces)
-                .ThenInclude(x=>x.Place)
-            .FirstOrDefault(x => x.Id == id);
-      
-        return default;  //in progress
+        var tour = await _tourService.GetPastTourDetails(tourId);
+        
+        var pastTourViewModel = _mapper.Map<PastTourDetailsViewModel>(tour);
+        
+        return View("PastTourDetails", pastTourViewModel);
     }
 
-    public IActionResult GetTouristTours(string id)
+    public async Task<IActionResult> GetTouristPastTours(string touristId)
     {
-        var tours = _dbContext.Payments
-            .Where(p => p.TouristId == id)
-            .Select(p => p.Tour)
-            .ToList();
+        var toursDto = await _tourService.GetTouristPastTours(touristId);
         
-        var tourViewModels = _mapper.Map<List<TourCropViewModel>>(tours);
+        List<TourCropViewModel> tourViewModels = _mapper.Map<List<TourCropDTO>, List<TourCropViewModel>>(toursDto);
 
         return View("TourList", tourViewModels);
     }

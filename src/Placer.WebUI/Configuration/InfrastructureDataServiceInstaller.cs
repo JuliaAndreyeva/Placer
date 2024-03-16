@@ -1,8 +1,9 @@
-﻿using Placer.Infrastructure.Data;
+﻿using Microsoft.AspNetCore.Identity;
+using Placer.Infrastructure.Data;
 
 namespace Placer.WebUI.Configuration;
 
-public class InfrastructureServiceInstaller : IServiceInstaller
+public class InfrastructureDataServiceInstaller : IServiceInstaller
 {
     public void Install(
         IServiceCollection services,
@@ -11,5 +12,10 @@ public class InfrastructureServiceInstaller : IServiceInstaller
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         if (connectionString != null) 
             services.AddStorage(connectionString);
+        
+        services.AddDefaultIdentity<IdentityUser>(
+                options => options.SignIn.RequireConfirmedAccount = false)
+            .AddRoles<IdentityRole>()
+            .AddEntityFrameworkStores<PlacerCodeFirstDbContext>();
     }
 }

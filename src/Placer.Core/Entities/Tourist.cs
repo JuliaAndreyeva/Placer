@@ -7,10 +7,10 @@ namespace Placer.Core.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public virtual ICollection<TourPhoto> TourPhotos { get; set; }
-        public virtual ICollection<Booking> Bookings { get; set; }
-        public virtual ICollection<Payment> Payments { get; set; }
-        public virtual ICollection<WishList> WishLists { get; set; }
+        public ICollection<TourPhoto> TourPhotos { get; set; }
+        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Payment> Payments { get; set; }
+        public ICollection<WishList> WishLists { get; set; }
 
     }
 }

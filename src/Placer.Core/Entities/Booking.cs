@@ -12,8 +12,8 @@ namespace Placer.Core.Entities
         ///  The booking Duration in days is сhosen by the tourist
         /// </summary>
         public int BookingDuration { get; set; }
-        public virtual Tourist Booker { get; set; }
-        public virtual Tour Tour { get; set; }
+        public Tourist Booker { get; set; }
+        public Tour Tour { get; set; }
         
     }
 }
