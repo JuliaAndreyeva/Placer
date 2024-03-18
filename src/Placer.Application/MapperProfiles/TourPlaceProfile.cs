@@ -8,7 +8,7 @@ public class TourPlaceProfile : Profile
 {
     public TourPlaceProfile()
     {
-        CreateMap<PastTourPlaceDTO, TourPlaces>()
+        CreateMap<RecentTourPlaceDTO, TourPlaces>()
             .ForMember(dest => dest.Place, opt => opt.MapFrom(src => src.Place))
             .ReverseMap();
     }

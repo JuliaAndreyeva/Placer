@@ -1,0 +1,11 @@
+﻿@{
+    string urlReferrer = null;
+    if (ViewContext.HttpContext.Request.Headers.ContainsKey("Referer"))
+    {
+        urlReferrer = ViewContext.HttpContext.Request.Headers["Referer"].ToString();
+    }
+}
+<a href="@urlReferrer" class="btn btn-primary">Come back</a>
+<script src="~/dist/js/Scripts.min.js"></script>
+
+

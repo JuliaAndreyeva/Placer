@@ -1,6 +1,8 @@
-﻿using AutoMapper;
+﻿using System.Security.Claims;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Placer.Application.Common.Errors;
 using Placer.Application.DTO;
 using Placer.Application.Services.Interfaces;
 using Placer.Infrastructure.Data;
@@ -38,12 +40,27 @@ public class TourController : Controller
         return View("PastTourDetails", pastTourViewModel);
     }
 
-    public async Task<IActionResult> GetTouristPastTours(string touristId)
+    public async Task<IActionResult> GetTouristPastTours()
     {
+        var touristId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (touristId is null)
+        {
+            var userError = new UserErrors.UserNotFound();
+            return View(userError.Message);
+        }
         var toursDto = await _tourService.GetTouristPastTours(touristId);
         
         List<TourCropViewModel> tourViewModels = _mapper.Map<List<TourCropDTO>, List<TourCropViewModel>>(toursDto);
 
         return View("TourList", tourViewModels);
+    }
+    public async Task<IActionResult> GetTourDetails(int tourId)
+    {
+        var tour = await _tourService.GetTourDetails(tourId);
+
+        var tourDetailsViewModel = _mapper.Map<RecentTourDetailsViewModel>(tour);
+        
+        return View("RecentTourDetails", tourDetailsViewModel);
     }
 }

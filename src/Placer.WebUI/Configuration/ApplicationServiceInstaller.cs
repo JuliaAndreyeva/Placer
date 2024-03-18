@@ -18,5 +18,6 @@ public class ApplicationServiceInstaller : IServiceInstaller
         services.AddScoped<IBookingService,BookingService>();
         services.AddScoped<IValidator<CreationBookingDTO>, BookingCreationValidator>();
         services.AddScoped<ITourService, TourService>();
+        services.AddScoped<IWishListService, WishListService>();
     }
 }

@@ -52,7 +52,7 @@ public class BookingController : Controller
         if (validationResult.IsFailed)
         {
             var resultDto = _mapper.Map<ResultDTO>(validationResult);
-            return View("CustomError", resultDto);
+            return View("CustomResult", resultDto);
         }
         
         var tourBookingDetailsViewModel = _mapper.Map<CreateBookingViewModel>(bookingDetailsDto);
@@ -77,23 +77,38 @@ public class BookingController : Controller
         if (bookingResult.IsFailed)
         {
             var resultDto = _mapper.Map<ResultDTO>(bookingResult);
-            return View("CustomError", resultDto);
+            return View("CustomResult", resultDto);
         }
         
         return RedirectToAction("Index", "Tour");
     }
 
-    public async Task<IActionResult> GetRecentBookingsList(string touristId)
+    public async Task<IActionResult> GetRecentBookingsList()
     {
-        var listBookingDto = await _bookingService.GetRecentBookingAsync(touristId);
+        var bookerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (bookerId is null)
+        {
+            var userError = new UserErrors.UserNotFound();
+            return View(userError.Message);
+        }
+        
+        var listBookingDto = await _bookingService.GetRecentBookingAsync(bookerId);
 
         List<ListRecentBookingsViewModel> listBookingsViewModels = _mapper.Map<List<RecentBookingDTO>, List<ListRecentBookingsViewModel>>(listBookingDto);
 
         return View("RecentBookings",listBookingsViewModels);
     }
-    public async Task<IActionResult> GetPastBookingsList(string touristId)
+    public async Task<IActionResult> GetPastBookingsList()
     {
-        var bookings = await _bookingService.GetPastBookingAsync(touristId);
+        var bookerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        if (bookerId is null)
+        {
+            var userError = new UserErrors.UserNotFound();
+            return View(userError.Message);
+        }
+        var bookings = await _bookingService.GetPastBookingAsync(bookerId);
 
         var listBookingsViewModel = _mapper.Map<List<ListPastBookingsViewModel>>(bookings);
 

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Bogus.DataSets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using Placer.Application.DTO;
@@ -26,14 +27,14 @@ public class TourService : ITourService
     {
         var tours = await _dbContext.Tours.AsNoTracking().ToListAsync();
         
-        List<TourCropDTO> listPastBookingDto = _mapper.Map<List<Tour>, List<TourCropDTO>>(tours);
+        List<TourCropDTO> listTourCropDto = _mapper.Map<List<Tour>, List<TourCropDTO>>(tours);
 
-        return listPastBookingDto;
+        return listTourCropDto;
     }
 
-    public async Task<PastTourDTO> GetPastTourDetails(int tourId)
+    public async Task<RecentTourDTO> GetTourDetails(int tourId)
     {
-        var pastTour = await _dbContext.Tours
+        var tour = await _dbContext.Tours
             .Where(x=>x.Id == tourId)
             .Include(x=>x.Manager)
             .Include(x=>x.Agency)
@@ -42,9 +43,9 @@ public class TourService : ITourService
                 .ThenInclude(x=>x.Place)
             .FirstOrDefaultAsync();
 
-        var pastTourDto = _mapper.Map<PastTourDTO>(pastTour);
+        var tourDto = _mapper.Map<RecentTourDTO>(tour);
 
-        return pastTourDto;
+        return tourDto;
     }
 
     public async Task<List<TourCropDTO>> GetTouristPastTours(string touristId)
@@ -60,5 +61,20 @@ public class TourService : ITourService
         List<TourCropDTO> listPastToursDto = _mapper.Map<List<Tour>, List<TourCropDTO>>(tours);
 
         return listPastToursDto;
+    }
+    public async Task<PastTourDetailsDTO> GetPastTourDetails(int tourId)
+    {
+        var tourDetails = await _dbContext.Tours
+            .Where(x => x.Id == tourId)
+            .Include(x => x.Manager)
+            .Include(x => x.Agency)
+            .AsSplitQuery()
+            .Include(x => x.TourPhotos)
+                .ThenInclude(x => x.Tourist)
+            .FirstOrDefaultAsync();
+        
+        var tourDetailsDto = _mapper.Map<PastTourDetailsDTO>(tourDetails);
+
+        return tourDetailsDto;
     }
 }

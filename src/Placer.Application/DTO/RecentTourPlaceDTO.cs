@@ -1,6 +1,6 @@
 ﻿namespace Placer.Application.DTO;
 
-public class PastTourPlaceDTO
+public class RecentTourPlaceDTO
 {
     public PlaceDTO Place { get; set; }
 }

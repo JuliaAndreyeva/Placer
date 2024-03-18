@@ -1,0 +1,27 @@
+﻿@model FluentResults.Error
+
+@{
+    Layout = "_Layout";
+}
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Error</title>
+</head>
+<body>
+<div>
+    <h1 class="text-danger">Error.</h1>
+    <h2 class="text-danger">An error occurred while processing your request.</h2>
+    <p>@Model.Message</p>
+    @foreach (var item in Model.Metadata)
+    {
+        <li>@item.Value</li>
+    }
+</div> 
+<partial name="_ReturnPartial"/>
+</body>
+
+</html>

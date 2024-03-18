@@ -11,7 +11,7 @@
           <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["Tours"]</a> 
          <ul class="collapse list-unstyled" id="homeSubmenu">
              <li>
-                 <a asp-controller="Tour" asp-action="GetTouristPastTours" asp-route-touristId="@userId">@localizer["My past tours"]</a>
+                 <a asp-controller="Tour" asp-action="GetTouristPastTours">@localizer["My past tours"]</a>
              </li>
               <li>
                <a asp-controller="Tour" asp-action="Index" >@localizer["All tours"]</a>
@@ -24,18 +24,18 @@
          <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["Bookings"]</a>
          <ul class="collapse list-unstyled" id="pageSubmenu">
              <li>
-                 <a asp-controller="Booking" asp-action="GetRecentBookingsList" asp-route-touristId="@userId">@localizer["Recent bookings"]</a>
+                 <a asp-controller="Booking" asp-action="GetRecentBookingsList" >@localizer["Recent bookings"]</a>
              </li>
               <li>
-                  <a asp-controller="Booking" asp-action="GetPastBookingsList" asp-route-touristId="@userId">@localizer["Past bookings"]</a>
+                  <a asp-controller="Booking" asp-action="GetPastBookingsList" >@localizer["Past bookings"]</a>
               </li>
          </ul>
      </li>
      <li>
-        <a href="#wishlistSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">@localizer["WishLists"]</a>
+        <a href="#wishlistSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle" >@localizer["WishLists"]</a>
          <ul class="collapse list-unstyled" id="wishlistSubmenu">
              <li>
-                <a href="#">@localizer["My wishLists"]</a>
+                <a asp-controller="WishList" asp-action="GetAll" >@localizer["My wishLists"]</a>
              </li>
          </ul>
      </li>

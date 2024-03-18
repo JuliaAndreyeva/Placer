@@ -1,6 +1,6 @@
 ﻿namespace Placer.Application.DTO;
 
-public class PastTourDTO
+public class RecentTourDTO
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -9,6 +9,5 @@ public class PastTourDTO
     public DateTime EndDate { get; set; }
     public AgencyDTO AgencyDTO { get; set; }
     public ManagerDTO ManagerDTO { get; set; }     
-    public  ICollection<PastTourPlaceDTO> TourPlacesDTO { get; set; }
-    public  ICollection<TourPhotoDTO> PhotoDTO { get; set;}
+    public  ICollection<RecentTourPlaceDTO> TourPlacesDTO { get; set; }
 }

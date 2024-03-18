@@ -1,5 +1,5 @@
 ﻿@using Placer.Core.Entities
-@model Placer.WebUI.ViewModels.Tours.PastTourDetailsViewModel
+@model Placer.WebUI.ViewModels.Tours.RecentTourDetailsViewModel
 
 @{
     Layout = "_Layout";
@@ -21,20 +21,20 @@
     <div class="col-md-8">
       <div id="myCarousel" class="carousel slide">
            <div class="carousel-indicators">
-               @for (int i = 0; i < Model.TourPhotos.Count; i++)
+               @for (int i = 0; i < Model.TourPlaces.Count; i++)
                {
                    <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="@i" class="@(i == 0 ? "active" : "")" aria-current="true" aria-label="Slide @(i + 1)"></button>
                }
            </div>
                <div class="carousel-inner">
-                   @for (int i = 0; i < Model.TourPhotos.Count; i++)
+                   @for (int i = 0; i < Model.TourPlaces.Count; i++)
                    {
-                       var tourPhoto = Model.TourPhotos.ElementAt(i);
+                       var tourPlace = Model.TourPlaces.ElementAt(i);
                        <div class="carousel-item @(i == 0 ? "active" : "")">
-                           <img src="@tourPhoto.Url" class="d-block w-100" alt="...">
+                           <img src="@tourPlace.Place.Image" class="d-block w-100" alt="...">
                            <div class="carousel-caption d-none d-md-block">
-                               <h5>Created by @tourPhoto.CreatorName</h5>
-                               <p>@tourPhoto.CreationTime</p>
+                               <h5>@tourPlace.Place.Name</h5>
+                               <p>@tourPlace.Place.Description</p>
                            </div>
                        </div>
                    }
@@ -52,6 +52,13 @@
     <div class="col-md-4">
       <h3 class="my-3">Tour Description</h3>
       <p>@Model.Description</p>
+      <h3 class="my-3">Tour Places</h3>
+        <ul>
+            @foreach (var place in @Model.TourPlaces)
+            {
+                <li>@place.Place.Name</li>
+            }
+        </ul>
         <h3 class="my-3">Manager </h3>
         <p>@Model.ManagerName</p>
         <h3 class="my-3">Contact Agency </h3>

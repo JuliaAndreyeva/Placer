@@ -23,7 +23,7 @@
                     var booking = Model[i];
                     <tr>
                         <td class="border-right">
-                            <a href="/TourDetails/@booking.TourId">Tour</a>
+                            <a asp-controller="Tour" asp-action="GetPastTourDetails" asp-route-tourId="@booking.TourId">Tour</a>
                         </td>
                         <td class="border-right">@booking.BookingPrice</td>
                          <td class="border-right">@booking.CreationTime</td>

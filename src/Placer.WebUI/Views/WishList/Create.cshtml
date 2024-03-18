@@ -1,0 +1,29 @@
+﻿@model Placer.WebUI.ViewModels.WishList.CreateWishListViewModel
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>New WishList</title>
+</head>
+<form id="creation-form" method="post" asp-controller="WishList" asp-action="Create"  align="center">
+    <div class="row g-3 ">
+        <div class="col-auto ">
+            <label for="inputName" class="col-form-label">Name</label>
+        </div>
+        <div class="col-auto ">
+            <input type="text" id="inputName" name="Name" class="form-control">
+        </div>
+        <input type="hidden" id="touristId" name="TouristId" value="@Model.TouristId">
+    </div>
+    <div class="d-grid gap-2 col-6 mx-auto mt-3">
+      <a asp-controller="WishList" asp-action="GetAll" class="btn btn-custom">Cancel</a>
+      <button class="btn btn-custom" type="submit">Submit</button>
+    </div>
+</form>
+<script src="~/js/Scripts.js"></script>
+</html>

@@ -5,9 +5,9 @@ body {
     background: #fafafa;
 }
 .btn-custom {
-    background-color: #7386d5; /* Ваш бажаний колір */
-    border-color: #343d62; /* Ваш бажаний колір */
-    color: #ffffff; /* Колір тексту */
+    background-color: #7386d5;
+    border-color: #343d62;
+    color: #ffffff;
 }
 p {
     font-family: 'Poppins', sans-serif;

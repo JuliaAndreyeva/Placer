@@ -1,6 +1,6 @@
-﻿namespace Placer.Application.DTO;
+﻿namespace Placer.WebUI.ViewModels.Tours;
 
-public class TourPhotoDTO
+public class TourPhotoViewModel
 {
     public string Url { get; set; }
     public DateTime CreationTime { get; set; }

@@ -1,0 +1,36 @@
+﻿@model List<Placer.WebUI.ViewModels.WishList.ListWishListViewModel>
+
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+    
+</head>
+<body>
+<div class="container">
+    <h1 class="mt-4">My wishlists</h1>
+    <div class="row">
+        <div class="col-9">
+            <ul class="list-group">
+                @foreach (var wishList in Model)
+                {
+                    <li class="list-group-item">
+                        <a href="/WishList/Details?wishlistId=@wishList.Id">@wishList.Name</a>
+                    </li>
+                }
+            </ul>
+        </div>
+       <div class="col-3">
+           <a asp-controller="WishList" asp-action="Create" class="btn btn-custom">Create a new wishlist</a>
+       </div>
+    </div>
+</div>
+</body>
+<script src="~/js/Scripts.js"></script>
+</html>
+
